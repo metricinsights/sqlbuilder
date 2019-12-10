@@ -20,6 +20,7 @@ import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,7 +94,10 @@ class TypedColumnObject extends ColumnObject {
         List<?> colQuals = _column.getTypeQualifiers();
         if (colQuals != null) {
 
-            if (!colQuals.isEmpty()) {
+            if (!(colQuals.isEmpty() ||
+                    ((colQuals.size() == 1)
+                            && (colQuals.get(0) instanceof ArrayList)
+                            && ((ArrayList)colQuals.get(0)).isEmpty()))) {
                 app.append("(");
                 Iterator<?> iter = colQuals.iterator();
                 app.append(iter.next());
