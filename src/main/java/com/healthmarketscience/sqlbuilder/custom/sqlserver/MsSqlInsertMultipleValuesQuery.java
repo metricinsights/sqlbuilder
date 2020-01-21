@@ -22,7 +22,7 @@ public class MsSqlInsertMultipleValuesQuery extends InsertMultipleValuesQuery {
                     }
 
                     if (src instanceof String) {
-                        return !((String) src).isEmpty() ? new UnicodeValueObject(validateInput(String.valueOf(src))) : SqlObject.NULL_VALUE;
+                        return new UnicodeValueObject(validateInput(String.valueOf(src)));
                     }
 
                     return toValueSqlObject(src);

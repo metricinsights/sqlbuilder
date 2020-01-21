@@ -32,7 +32,7 @@ public class InsertMultipleValuesQuery extends InsertQuery {
                 }
 
                 if (src instanceof String) {
-                    return !((String) src).isEmpty() ? new ValueObject(validateInput(String.valueOf(src))) : SqlObject.NULL_VALUE;
+                    return new ValueObject(validateInput(String.valueOf(src)));
                 }
 
                 return toValueSqlObject(src);
