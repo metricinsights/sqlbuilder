@@ -194,7 +194,7 @@ public class SqlObjectList<ObjType extends SqlObject> extends SqlObject
     public <SrcType, DstType extends ObjType> SqlObjectList<ObjType> addObjects(
             Converter<SrcType, DstType> converter,
             Iterable<? extends SrcType> objs) {
-        if (objs == null) {
+        if (objs == null || !objs.iterator().hasNext()) {
             return this;
         }
         for (SrcType obj : objs) {
