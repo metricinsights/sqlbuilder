@@ -1,25 +1,16 @@
 package com.healthmarketscience.sqlbuilder.custom.sqlserver;
 
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.Converter;
 import com.healthmarketscience.sqlbuilder.SqlObject;
 import com.healthmarketscience.sqlbuilder.SqlObjectList;
-import com.healthmarketscience.sqlbuilder.ValidationContext;
-import com.healthmarketscience.sqlbuilder.custom.ColumnsModificationAction;
+import com.healthmarketscience.sqlbuilder.custom.BaseModifyColumnAction;
 
 import java.io.IOException;
 
-public class MsSqlModifyColumnAction extends ColumnsModificationAction {
-
-    private SqlObject column;
+public class MsSqlModifyColumnAction extends BaseModifyColumnAction {
 
     public MsSqlModifyColumnAction(Object column) {
-        this.column = Converter.toCustomTypedColumnSqlObject(column);
-    }
-
-    @Override
-    protected void collectSchemaObjects(ValidationContext vContext) {
-        SqlObject.collectSchemaObjects(column, vContext);
+        super(column);
     }
 
     @Override
