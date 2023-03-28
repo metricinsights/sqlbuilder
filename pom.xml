@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 >
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -13,6 +13,12 @@
     <version>3.0.3-mi</version>
     <url>https://openhms.sourceforge.io/sqlbuilder</url>
     <inceptionYear>2006</inceptionYear>
+
+    <properties>
+        <repo.host>repo.metricinsights.com</repo.host>
+        <repo.root>var/www/repo.metricinsights.com</repo.root>
+    </properties>
+
     <developers>
         <developer>
             <id>jahlborn</id>
@@ -55,6 +61,13 @@
         <url>http://svn.code.sf.net/p/openhms/code/sqlbuilder/trunk/</url>
     </scm>
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.12</version>
+            </extension>
+        </extensions>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -126,80 +139,39 @@
             <version>3.12.0</version>
         </dependency>
     </dependencies>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <configuration>
-                    <rulesets>
-                        <ruleset>${basedir}/src/site/pmd/custom-ruleset.xml</ruleset>
-                    </rulesets>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-changes-plugin</artifactId>
-                <configuration>
-                    <issueLinkTemplatePerSystem>
-                        <SourceForge2Features>https://sourceforge.net/p/openhms/feature-requests/%ISSUE%
-                        </SourceForge2Features>
-                        <SourceForge2Patches>https://sourceforge.net/p/openhms/patches/%ISSUE%</SourceForge2Patches>
-                    </issueLinkTemplatePerSystem>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>changes-report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <minmemory>128m</minmemory>
-                    <maxmemory>512</maxmemory>
-                    <links>
-                        <list>https://docs.oracle.com/javase/8/docs/api/</list>
-                    </links>
-                    <source>1.8</source>
-                    <stylesheetfile>${basedir}/src/site/javadoc/stylesheet.css</stylesheetfile>
-                    <groups>
-                        <group>
-                            <title>SqlBuilder Core Package</title>
-                            <packages>com.healthmarketscience.sqlbuilder</packages>
-                        </group>
-                        <group>
-                            <title>Database Specification Packages</title>
-                            <packages>com.healthmarketscience.sqlbuilder.dbspec*</packages>
-                        </group>
-                        <group>
-                            <title>Custom Database Packages</title>
-                            <packages>com.healthmarketscience.sqlbuilder.custom*</packages>
-                        </group>
-                        <group>
-                            <title>Utility Package</title>
-                            <packages>com.healthmarketscience.common*</packages>
-                        </group>
-                    </groups>
-                    <quiet>true</quiet>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <configuration>
-                    <threshold>Normal</threshold>
-                    <effort>Default</effort>
-                    <excludeFilterFile>src/test/resources/findBugsExcludes.xml</excludeFilterFile>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+
+    <repositories>
+        <repository>
+            <id>mi-staging-repository-http</id>
+            <url>https://${repo.host}/mvn/staging/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>mi-snapshot-repository-http</id>
+            <url>https://${repo.host}/mvn/snapshot/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <distributionManagement>
-        <site>
-            <id>openhms-build-site</id>
-            <url>scp://shell.sourceforge.net/home/project-web/openhms/htdocs/sqlbuilder</url>
-        </site>
+        <repository>
+            <url>scpexe://${repo.host}/${repo.root}/mvn/staging/</url>
+            <id>mi-staging-repository-ssh</id>
+        </repository>
+        <snapshotRepository>
+            <url>scpexe://${repo.host}/${repo.root}/mvn/snapshot/</url>
+            <id>mi-snapshot-repository-ssh</id>
+        </snapshotRepository>
     </distributionManagement>
 </project>
