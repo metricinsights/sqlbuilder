@@ -22,18 +22,16 @@ import com.healthmarketscience.sqlbuilder.Condition;
  * Maintains information about a database (table or column) check constraint
  * for use with the sqlbuilder utilities.
  *
- *
  * @author James Ahlborn
  */
-public interface CheckConstraint extends Constraint
-{
-  @Override
-  default public Type getType() {
-    return Type.CHECK;
-  }
+public interface CheckConstraint extends Constraint {
+    @Override
+    default public Type getType() {
+        return Type.CHECK;
+    }
 
-  /**
-   * @return the check condition for this constraint
-   */
-  public Condition getCondition();
+    /**
+     * @return the check condition for this constraint
+     */
+    public Condition getCondition();
 }

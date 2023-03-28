@@ -1,7 +1,13 @@
 package com.healthmarketscience.sqlbuilder.custom.teradata;
 
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.*;
+import com.healthmarketscience.sqlbuilder.Converter;
+import com.healthmarketscience.sqlbuilder.SelectQuery;
+import com.healthmarketscience.sqlbuilder.SqlObject;
+import com.healthmarketscience.sqlbuilder.ValidationContext;
+import com.healthmarketscience.sqlbuilder.ValidationException;
+import com.healthmarketscience.sqlbuilder.ValueObject;
+import com.healthmarketscience.sqlbuilder.Verifiable;
 import com.healthmarketscience.sqlbuilder.custom.CustomSyntax;
 import com.healthmarketscience.sqlbuilder.custom.HookType;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;

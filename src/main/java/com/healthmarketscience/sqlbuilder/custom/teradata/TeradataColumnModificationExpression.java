@@ -1,7 +1,11 @@
 package com.healthmarketscience.sqlbuilder.custom.teradata;
 
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.*;
+import com.healthmarketscience.sqlbuilder.Converter;
+import com.healthmarketscience.sqlbuilder.CreateTableQuery;
+import com.healthmarketscience.sqlbuilder.SqlObject;
+import com.healthmarketscience.sqlbuilder.SqlObjectList;
+import com.healthmarketscience.sqlbuilder.ValidationContext;
 import com.healthmarketscience.sqlbuilder.custom.ColumnsModificationAction;
 import com.healthmarketscience.sqlbuilder.dbspec.Constraint;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
@@ -55,7 +59,8 @@ public class TeradataColumnModificationExpression extends ColumnsModificationAct
 
     private String copyDataQuery() {
         SqlObjectList<SqlObject> columnsList = convertColumnsWithoutAutoIncrementField();
-        return String.format("INSERT INTO %s%s(%s) SELECT %s FROM %s;", table.getName(), TEMP_TABLE_SUFFIX, columnsList, columnsList, table.getName());
+        return String.format("INSERT INTO %s%s(%s) SELECT %s FROM %s;", table.getName(), TEMP_TABLE_SUFFIX, columnsList,
+                             columnsList, table.getName());
     }
 
     private String dropTempTableQuery() {

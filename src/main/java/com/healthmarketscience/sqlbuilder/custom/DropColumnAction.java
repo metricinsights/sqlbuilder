@@ -1,7 +1,6 @@
 package com.healthmarketscience.sqlbuilder.custom;
 
 import com.healthmarketscience.common.util.AppendableExt;
-import com.healthmarketscience.sqlbuilder.Converter;
 import com.healthmarketscience.sqlbuilder.SqlObject;
 import com.healthmarketscience.sqlbuilder.ValidationContext;
 

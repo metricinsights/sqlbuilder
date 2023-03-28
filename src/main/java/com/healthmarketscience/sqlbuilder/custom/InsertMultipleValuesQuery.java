@@ -2,7 +2,14 @@ package com.healthmarketscience.sqlbuilder.custom;
 
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.common.util.AppendeeObject;
-import com.healthmarketscience.sqlbuilder.*;
+import com.healthmarketscience.sqlbuilder.Converter;
+import com.healthmarketscience.sqlbuilder.InsertQuery;
+import com.healthmarketscience.sqlbuilder.SqlContext;
+import com.healthmarketscience.sqlbuilder.SqlObject;
+import com.healthmarketscience.sqlbuilder.SqlObjectList;
+import com.healthmarketscience.sqlbuilder.ValidationContext;
+import com.healthmarketscience.sqlbuilder.ValidationException;
+import com.healthmarketscience.sqlbuilder.ValueObject;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;

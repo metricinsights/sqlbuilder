@@ -28,18 +28,18 @@ import java.io.IOException;
  * {@link #appendTo} invocation be the same as the result of a call to
  * {@link Object#toString}.  If this is not the case, it should be clearly
  * documented in the class.
- * 
+ *
  * @author James Ahlborn
  */
 public interface Appendee {
 
-  /**
-   * Appends this object to the given AppendableExt.  Called by an
-   * AppendableExt when a request is made to append an instance of Appendee.
-   *
-   * @param a the AppendableExt to which this class should append itself
-   * @throws IOException if the append fails
-   */
-  public void appendTo(AppendableExt a) throws IOException;
-  
+    /**
+     * Appends this object to the given AppendableExt.  Called by an
+     * AppendableExt when a request is made to append an instance of Appendee.
+     *
+     * @param a the AppendableExt to which this class should append itself
+     * @throws IOException if the append fails
+     */
+    public void appendTo(AppendableExt a) throws IOException;
+
 }
