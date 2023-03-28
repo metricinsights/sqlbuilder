@@ -25,8 +25,7 @@ import com.healthmarketscience.common.util.AppendableExt;
  *
  * @author James Ahlborn
  */
-public abstract class BaseCTEQuery<ThisType extends BaseCTEQuery<ThisType>> 
-  extends Query<ThisType>
+public abstract class BaseCTEQuery<ThisType extends BaseCTEQuery<ThisType>> extends Query<ThisType>
 {
   private boolean _recursive;
   private SqlObjectList<SqlObject> _ctes = SqlObjectList.create();

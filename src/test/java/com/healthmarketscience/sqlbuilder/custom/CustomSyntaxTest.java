@@ -34,8 +34,12 @@ import com.healthmarketscience.sqlbuilder.custom.postgresql.PgExtractDatePart;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgObjects;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
+import com.healthmarketscience.sqlbuilder.custom.sqlserver.MsSqlInsertMultipleValuesQuery;
 import com.healthmarketscience.sqlbuilder.custom.sqlserver.MssTopClause;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbIndex;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -265,5 +269,21 @@ public class CustomSyntaxTest extends BaseSqlTestCase
       .validate().toString();
     checkResult(selectQuery2,
                 "SELECT DISTINCT TOP 30 PERCENT t0.col1 FROM Schema1.Table1 t0");
+  }
+
+  public void testSQLServerUnicodeInsertTest() {
+    String insertStr = new MsSqlInsertMultipleValuesQuery(_table1, true)
+            .addColumns(Arrays.asList(_table1_col1, _table1_col3, _table1_col2),
+                        Collections.singletonList(Arrays.asList("значение", "value", 12)))
+            .toString();
+    checkResult(insertStr, "INSERT INTO Schema1.Table1 (col1,col3,col2) VALUES (N'значение',N'value',12)");
+  }
+
+  public void testSQLServerNotUnicodeInsertTest() {
+    String insertStr = new MsSqlInsertMultipleValuesQuery(_table1, false)
+            .addColumns(Arrays.asList(_table1_col1, _table1_col3, _table1_col2),
+                        Collections.singletonList(Arrays.asList("значение", "value", 12)))
+            .toString();
+    checkResult(insertStr, "INSERT INTO Schema1.Table1 (col1,col3,col2) VALUES ('значение','value',12)");
   }
 }

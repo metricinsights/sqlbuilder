@@ -33,6 +33,7 @@ import com.healthmarketscience.sqlbuilder.custom.HookType;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
 import com.healthmarketscience.sqlbuilder.dbspec.Join;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
+import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
 
 
 
@@ -69,7 +70,7 @@ public class SelectQuery extends BaseCTEQuery<SelectQuery>
 
     private final String _joinClause;
 
-    private JoinType(String joinClause) {
+    JoinType(String joinClause) {
       _joinClause = joinClause;
     }
 
@@ -206,6 +207,10 @@ public class SelectQuery extends BaseCTEQuery<SelectQuery>
     return addCustomColumns((Object[])columns);
   }
 
+  public SelectQuery addColumns(Collection<DbColumn> columns) {
+    return addCustomColumns(columns.toArray());
+  }
+
   /**
    * Adds the given column with the given alias to the SELECT column list.
    * This is equivalent to
@@ -339,6 +344,11 @@ public class SelectQuery extends BaseCTEQuery<SelectQuery>
                                        OrderObject.Dir dir) {
     return addCustomOrderings(
         new OrderObject(dir, Converter.toCustomColumnSqlObject(columnStr)));
+  }
+
+  public SelectQuery addCustomOrderings(Collection<OrderObject> orderObjects) {
+    _ordering.addObjects(Converter.CUSTOM_COLUMN_TO_OBJ, orderObjects.toArray());
+    return this;
   }
 
   /**

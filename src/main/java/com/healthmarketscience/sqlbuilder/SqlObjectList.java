@@ -24,7 +24,6 @@ import java.util.ListIterator;
 
 import com.healthmarketscience.common.util.AppendableExt;
 
-
 /**
  * Maintains a list of SqlObjects.  Outputs each object separated by the
  * given delimiter (defaults to {@link #DEFAULT_DELIMITER}).
@@ -54,11 +53,11 @@ public class SqlObjectList<ObjType extends SqlObject> extends SqlObject
   private final List<ObjType> _objects;
 
   public SqlObjectList() {
-    this(DEFAULT_DELIMITER, new ArrayList<ObjType>(4));
+    this(DEFAULT_DELIMITER, new ArrayList<>(4));
   }
 
   public SqlObjectList(String delimiter) {
-    this(delimiter, new ArrayList<ObjType>(4));
+    this(delimiter, new ArrayList<>(4));
   }
 
   public SqlObjectList(String delimiter, List<ObjType> objects) {
@@ -81,9 +80,8 @@ public class SqlObjectList<ObjType extends SqlObject> extends SqlObject
    * @param delimiter to use when appending the list
    * @return a new SqlObjectList with the given delimiter
    */
-  public static <ObjType extends SqlObject> SqlObjectList<ObjType> create(
-      String delimiter) {
-    return new SqlObjectList<ObjType>(delimiter);
+  public static <ObjType extends SqlObject> SqlObjectList<ObjType> create(String delimiter) {
+    return new SqlObjectList<>(delimiter);
   }
 
   public String getDelimiter() {
@@ -193,7 +191,7 @@ public class SqlObjectList<ObjType extends SqlObject> extends SqlObject
       Converter<SrcType, DstType> converter,
       Iterable<? extends SrcType> objs)
   {
-    if(objs == null) {
+    if(objs == null || !objs.iterator().hasNext()) {
       return this;
     }
     for(SrcType obj : objs) {

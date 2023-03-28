@@ -127,7 +127,7 @@ public abstract class CustomizableSqlObject extends SqlObject
     for(Customization cust : _customizations) {
       if(cust.forAnchor(anchor)) {
         if(custs == null) {
-          custs = new ArrayList<Customization>(2);
+          custs = new ArrayList<>(2);
         }
         custs.add(cust);
       }

@@ -17,6 +17,7 @@ limitations under the License.
 package com.healthmarketscience.sqlbuilder;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
@@ -64,7 +65,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery>
 
     private final String _constraintClause;
 
-    private ColumnConstraint(String constraintClause) {
+    ColumnConstraint(String constraintClause) {
       _constraintClause = constraintClause;
     }
 
@@ -83,7 +84,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery>
 
     private final String _typeClause;
 
-    private TableType(String typeClause) {
+    TableType(String typeClause) {
       _typeClause = typeClause;
     }
 
@@ -263,6 +264,10 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery>
     return addCustomConstraints((Object[])constraints);
   }
 
+  public CreateTableQuery addConstraints(Collection<Constraint> constraints) {
+    return addCustomConstraints(constraints.toArray());
+  }
+
   /**
    * Adds the given Objects as table constraints, should look like
    * <code>"&lt;constraint&gt;"</code>.
@@ -339,8 +344,7 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery>
   }
 
   @Override
-  protected void appendTo(AppendableExt app, SqlContext newContext)
-    throws IOException
+  protected void appendTo(AppendableExt app, SqlContext newContext) throws IOException
   {
     newContext.setUseTableAliases(false);
 
@@ -359,6 +363,10 @@ public class CreateTableQuery extends BaseCreateQuery<CreateTableQuery>
     app.append(")");
 
     customAppendTo(app, Hook.TRAILER);
+  }
+
+  public SqlObjectList<SqlObject> getConstraints() {
+    return _constraints;
   }
 
   /**

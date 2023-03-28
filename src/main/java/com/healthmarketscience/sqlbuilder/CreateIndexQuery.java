@@ -16,8 +16,11 @@ limitations under the License.
 package com.healthmarketscience.sqlbuilder;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.healthmarketscience.common.util.AppendableExt;
+import com.healthmarketscience.sqlbuilder.dbspec.Column;
 import com.healthmarketscience.sqlbuilder.dbspec.Index;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
 import com.healthmarketscience.sqlbuilder.custom.CustomSyntax;
@@ -69,6 +72,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery>
 
   private IndexType _indexType;
   protected SqlObject _table;
+  private Integer indexLen;
 
   public CreateIndexQuery(Index index) {
     this((Object)index.getTable(), (Object)index);
@@ -76,7 +80,12 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery>
     // add all the columns for this table
     _columns.addObjects(Converter.COLUMN_TO_OBJ, index.getColumns());
   }
-  
+
+  public CreateIndexQuery(Index index, Integer indexLen) {
+    this(index);
+    this.indexLen = indexLen;
+  }
+
   public CreateIndexQuery(Table table, String indexName) {
     this((Object)table, (Object)indexName);
   }
@@ -201,11 +210,36 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery>
     if(_indexType != null) {
       app.append(_indexType);
     }
-    customAppendTo(app, Hook.INDEX, "INDEX ")
-      .append(_object).append(" ON ").append(_table)
-      .append(" (").append(_columns).append(")");
+
+    AppendableExt indexBuilder =
+            customAppendTo(app, Hook.INDEX, "INDEX ")
+            .append(_object).append(" ON ").append(_table);
+
+    if (indexLen == null) {
+      indexBuilder.append(" (").append(_columns).append(")");
+    } else {
+      indexBuilder.append(" ").append(generateIndexColumnsVal());
+    }
 
     customAppendTo(app, Hook.TRAILER);
   }
-   
+
+  private String generateIndexColumnsVal() {
+    return StreamSupport.stream(_columns.spliterator(), false)
+            .map(obj -> {
+              if (obj instanceof ColumnObject) {
+                Column col = ((ColumnObject) obj)._column;
+
+                if (col.getTypeNameSQL().equalsIgnoreCase("VARCHAR")) {
+                  return col.getColumnNameSQL() + String.format("(%d)", indexLen);
+                }
+
+                return col.getColumnNameSQL();
+              }
+
+              throw new RuntimeException("Couldn't parse columns.");
+            })
+            .collect(Collectors.joining(",", "(", ")"));
+  }
+
 }

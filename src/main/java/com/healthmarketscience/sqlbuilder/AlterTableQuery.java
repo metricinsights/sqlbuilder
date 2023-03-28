@@ -17,11 +17,13 @@ limitations under the License.
 package com.healthmarketscience.sqlbuilder;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import com.healthmarketscience.common.util.AppendableExt;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
 import com.healthmarketscience.sqlbuilder.dbspec.Constraint;
 import com.healthmarketscience.sqlbuilder.dbspec.Table;
+import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
 
 /**
  * Query which generates an {@code ALTER TABLE} statement.
@@ -32,6 +34,7 @@ public class AlterTableQuery extends Query<AlterTableQuery>
 {
   private SqlObject _table;
   private SqlObject _action;
+  private Collection<DbColumn> newColumns;
   
   public AlterTableQuery(Table table) {
     this((Object)table);
@@ -98,8 +101,7 @@ public class AlterTableQuery extends Query<AlterTableQuery>
   }
   
   @Override
-  protected void appendTo(AppendableExt app, SqlContext newContext)
-    throws IOException
+  protected void appendTo(AppendableExt app, SqlContext newContext) throws IOException
   {
     newContext.setUseTableAliases(false);
     
@@ -196,6 +198,17 @@ public class AlterTableQuery extends Query<AlterTableQuery>
     }
   }
 
+    public Collection<DbColumn> getNewColumns() {
+        return newColumns;
+    }
+
+    public void setNewColumns(Collection<DbColumn> newColumns) {
+        this.newColumns = newColumns;
+    }
+
+    public SqlObject getAction() {
+        return _action;
+    }
 
   /**
    * "Action" for adding a unique constraint to a table.,

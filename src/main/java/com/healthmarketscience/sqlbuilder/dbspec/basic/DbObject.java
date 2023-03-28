@@ -18,6 +18,7 @@ package com.healthmarketscience.sqlbuilder.dbspec.basic;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Base class for the simple implementations of the dbspec database objects.
@@ -29,7 +30,7 @@ public class DbObject<ParentType extends DbObject<?>>
   /** parent object for this db object */
   private final ParentType _parent;
   /** the simple name of this db object */
-  private final String _name;
+  private String _name;
 
   protected DbObject(ParentType parent, String name) {
     _parent = parent;
@@ -99,11 +100,9 @@ public class DbObject<ParentType extends DbObject<?>>
    * @return the DbObject with the given name from the given collection, if
    *         any, {@code null} otherwise.
    */
-  protected static <T extends DbObject<?>> T findObject(
-      Collection<T> objects, String name) {
+  protected static <T extends DbObject<?>> T findObject(Collection<T> objects, String name) {
     for(T obj : objects) {
-      if((name == obj.getName()) ||
-         ((name != null) && name.equals(obj.getName()))) {
+      if ((Objects.equals(name, obj.getName())) || ((name != null) && name.equals(obj.getName()))) {
         return obj;
       }
     }
@@ -125,6 +124,10 @@ public class DbObject<ParentType extends DbObject<?>>
     if(objArr != null) {
       objs.addAll(Arrays.asList(parent.checkOwnership(objArr)));
     }
+  }
+
+  public void setName(String name) {
+    this._name = name;
   }
 
   @Override

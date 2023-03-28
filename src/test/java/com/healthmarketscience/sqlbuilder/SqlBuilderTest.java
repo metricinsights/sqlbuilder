@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import com.healthmarketscience.common.util.AppendableExt;
+import com.healthmarketscience.sqlbuilder.custom.InsertMultipleValuesQuery;
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
 import com.healthmarketscience.sqlbuilder.dbspec.RejoinTable;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
@@ -170,6 +171,12 @@ public class SqlBuilderTest extends BaseSqlTestCase
       .validate().toString();
     checkResult(insertStr3,
                 "INSERT INTO Table1 (col_id,col2,col3) VALUES (13,?,?)");
+
+    String insertStr4 = new InsertMultipleValuesQuery(_table1)
+            .addPreparedColumns(Arrays.asList(_table1_col1, _table1_col2, _table1_col3))
+            .toString();
+    checkResult(insertStr4,
+                "INSERT INTO Schema1.Table1 (col1,col2,col3) VALUES (?,?,?)");
 
     try {
       new InsertQuery(_table1)
