@@ -23,19 +23,19 @@ import java.io.IOException;
  */
 public class StringAppendableExtTest extends AppendableExtTest {
 
-  public StringAppendableExtTest(String name) {
-    super(name);
-  }
+    public StringAppendableExtTest(String name) {
+        super(name);
+    }
 
-  @Override
-  protected AppendableExt createAppendableExt(Appendable app) {
-    return new StringAppendableExt(app);
-  }
+    @Override
+    protected AppendableExt createAppendableExt(Appendable app) {
+        return new StringAppendableExt(app);
+    }
 
-  @Override
-  protected IOException getFailure(AppendableExt app, IOException caught) {
-    assertNull(caught);
-    return ((StringAppendableExt)app).getIOException();
-  }
-  
+    @Override
+    protected IOException getFailure(AppendableExt app, IOException caught) {
+        assertNull(caught);
+        return ((StringAppendableExt) app).getIOException();
+    }
+
 }

@@ -30,23 +30,22 @@ import java.io.IOException;
  * @author James Ahlborn
  */
 public class AppendeeObject
-  implements Appendee
-{
-  public AppendeeObject() {}
+        implements Appendee {
+    public AppendeeObject() {}
 
-  @Override
-  public void appendTo(AppendableExt a) throws IOException {
-    // append Object.toString() to the AppendableExt
-    a.append(super.toString());
-  }
+    @Override
+    public void appendTo(AppendableExt a) throws IOException {
+        // append Object.toString() to the AppendableExt
+        a.append(super.toString());
+    }
 
-  public String toString(int size) {
-    return(new StringAppendableExt(size)).append(this).toString();
-  }
-  
-  @Override
-  public String toString() {
-    return(new StringAppendableExt()).append(this).toString();
-  }
-  
+    public String toString(int size) {
+        return (new StringAppendableExt(size)).append(this).toString();
+    }
+
+    @Override
+    public String toString() {
+        return (new StringAppendableExt()).append(this).toString();
+    }
+
 }

@@ -17,74 +17,82 @@ limitations under the License.
 package com.healthmarketscience.sqlbuilder;
 
 import com.healthmarketscience.sqlbuilder.dbspec.Column;
+import com.healthmarketscience.sqlbuilder.dbspec.basic.DbColumn;
+
+import java.util.Collection;
 
 /**
  * Query which generates a CREATE statement.
  *
  * @author James Ahlborn
  */
-public abstract class BaseCreateQuery<ThisType extends BaseCreateQuery<ThisType>>
-  extends Query<ThisType>
-{
+public abstract class BaseCreateQuery<ThisType extends BaseCreateQuery<ThisType>> extends Query<ThisType> {
 
-  protected SqlObject _object;
-  protected SqlObjectList<SqlObject> _columns = SqlObjectList.create();
+    protected SqlObject _object;
+    protected SqlObjectList<SqlObject> _columns = SqlObjectList.create();
 
-  protected BaseCreateQuery(SqlObject objectStr) {
-    _object = objectStr;
-  }
-
-  /**
-   * Sets the name of the object being created.
-   */
-  public ThisType setName(String name) {
-    return setCustomName(name);
-  }
-
-  /**
-   * Sets the name of the object being created.
-   * <p>
-   * {@code Object} -&gt; {@code SqlObject} conversions handled by
-   * {@link Converter#toCustomSqlObject(Object)}.
-   */
-  public ThisType setCustomName(Object name) {
-    _object = Converter.toCustomSqlObject(name);
-    return getThisType();
-  }
-
-  /** Adds column descriptions for the given Columns. */
-  public ThisType addColumns(Column... columns) {
-    return addCustomColumns((Object[])columns);
-  }
-
-  @Override
-  protected void collectSchemaObjects(ValidationContext vContext) {
-    super.collectSchemaObjects(vContext);
-    _object.collectSchemaObjects(vContext);
-    _columns.collectSchemaObjects(vContext);
-  }
-
-  @Override
-  public void validate(ValidationContext vContext)
-    throws ValidationException
-  {
-    // validate super
-    super.validate(vContext);
-
-    // can not have a "*" in the column list
-    if(SelectQuery.hasAllColumns(_columns)) {
-      throw new ValidationException("Cannot use the '*' syntax in this query");
+    protected BaseCreateQuery(SqlObject objectStr) {
+        _object = objectStr;
     }
-  }
 
-  /** Adds the given SqlObjects as column descriptions, according to the
-      subclass type. */
-  public abstract ThisType addCustomColumns(Object... typedColumnStrs);
-  
-  /**
-   * @return a DropQuery for the object which would be created by this create
-   *         query.
-   */
-  public abstract DropQuery getDropQuery();  
-  
+    /**
+     * Sets the name of the object being created.
+     */
+    public ThisType setName(String name) {
+        return setCustomName(name);
+    }
+
+    /**
+     * Sets the name of the object being created.
+     * <p>
+     * {@code Object} -&gt; {@code SqlObject} conversions handled by
+     * {@link Converter#toCustomSqlObject(Object)}.
+     */
+    public ThisType setCustomName(Object name) {
+        _object = Converter.toCustomSqlObject(name);
+        return getThisType();
+    }
+
+    /**
+     * Adds column descriptions for the given Columns.
+     */
+    public ThisType addColumns(Column... columns) {
+        return addCustomColumns((Object[]) columns);
+    }
+
+    public ThisType addColumns(Collection<DbColumn> columns) {
+        return addColumns(columns.toArray(new Column[columns.size()]));
+    }
+
+    @Override
+    protected void collectSchemaObjects(ValidationContext vContext) {
+        super.collectSchemaObjects(vContext);
+        _object.collectSchemaObjects(vContext);
+        _columns.collectSchemaObjects(vContext);
+    }
+
+    @Override
+    public void validate(ValidationContext vContext)
+            throws ValidationException {
+        // validate super
+        super.validate(vContext);
+
+        // can not have a "*" in the column list
+        if (SelectQuery.hasAllColumns(_columns)) {
+            throw new ValidationException("Cannot use the '*' syntax in this query");
+        }
+    }
+
+    /**
+     * Adds the given SqlObjects as column descriptions, according to the
+     * subclass type.
+     */
+    public abstract ThisType addCustomColumns(Object... typedColumnStrs);
+
+    /**
+     * @return a DropQuery for the object which would be created by this create
+     * query.
+     */
+    public abstract DropQuery getDropQuery();
+
 }

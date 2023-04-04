@@ -53,11 +53,11 @@ limitations under the License.
  *     syntax implementation may extend {@link com.healthmarketscience.sqlbuilder.custom.CustomSyntax}, but that is
  *     not a requirement.  {@code CustomSyntax} based implementations know how
  *     to insert themselves into the correct location in relevant queries so
-
+ * <p>
  *     they can easily be added to a query using the simplified {@code
  *     addCustomization()} method (e.g. {@link com.healthmarketscience.sqlbuilder.SelectQuery#addCustomization(CustomSyntax)}).
  *     However, any ad hoc custom syntax can be added to customizable queries
- *     by specifying the HookType and "hook anchor" when adding (e.g. {@link com.healthmarketscience.sqlbuilder.SelectQuery#addCustomization(Hook,HookType,Object)})</li>
+ *     by specifying the HookType and "hook anchor" when adding (e.g. {@link com.healthmarketscience.sqlbuilder.SelectQuery#addCustomization(Hook, HookType, Object)})</li>
  * </ul>
  *
  * <h3>Supported Customizations</h3>

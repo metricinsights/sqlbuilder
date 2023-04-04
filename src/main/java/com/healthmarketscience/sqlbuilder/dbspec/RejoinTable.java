@@ -17,7 +17,6 @@ limitations under the License.
 package com.healthmarketscience.sqlbuilder.dbspec;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 /**
@@ -27,112 +26,118 @@ import java.util.List;
  *
  * @author James Ahlborn
  */
-public class RejoinTable implements Table
-{
-  /** the original table */
-  private Table _table;
-  /** the new alias to use for this table */
-  private String _alias;
-  /** the wrapped columns from the original table */
-  private List<RejoinColumn> _columns;
+public class RejoinTable implements Table {
+    /**
+     * the original table
+     */
+    private Table _table;
+    /**
+     * the new alias to use for this table
+     */
+    private String _alias;
+    /**
+     * the wrapped columns from the original table
+     */
+    private List<RejoinColumn> _columns;
 
-  
-  public RejoinTable(Table table, String alias) {
-    _table = table;
-    _alias = alias;
-    _columns = new ArrayList<RejoinColumn>(_table.getColumns().size());
-    for(Column column : _table.getColumns()) {
-      _columns.add(new RejoinColumn(column));
-    }
-  }
 
-  public Table getOriginalTable() { return _table; }
-  
-  @Override
-  public String getAlias() { return _alias; }
-  
-  @Override
-  public String getTableNameSQL() { return _table.getTableNameSQL(); }
-
-  @Override
-  public List<RejoinColumn> getColumns() { return _columns; }
-
-  @Override
-  public List<? extends Constraint> getConstraints() { return _table.getConstraints(); }
-
-  /**
-   * Finds the RejoinColumn in this table with the given name.
-   */
-  public RejoinColumn findColumnByName(String name) {
-    for(RejoinColumn col : getColumns()) {
-      if((name == col.getColumnNameSQL()) ||
-         ((name != null) && name.equals(col.getColumnNameSQL()))) {
-        return col;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Finds the RejoinColumn in this table for the given original column.
-   */
-  public RejoinColumn findColumn(Column origCol) {
-    for(RejoinColumn col : getColumns()) {
-      if(origCol == col.getOriginalColumn()) {
-        return col;
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public String toString() {
-    return "Rejoin: " + getOriginalTable().toString() + "(" + getAlias() + ")";
-  }
-  
-  /**
-   * Utility class which wraps a Column and returns a reference to the
-   * RejoinTable instead of the original table.  All other methods return the
-   * information from the original column.
-   */
-  @SuppressWarnings("deprecation")
-  public class RejoinColumn implements Column
-  {
-    /** the original column object */
-    private Column _column;
-
-    private RejoinColumn(Column column) {
-      _column = column;
+    public RejoinTable(Table table, String alias) {
+        _table = table;
+        _alias = alias;
+        _columns = new ArrayList<RejoinColumn>(_table.getColumns().size());
+        for (Column column : _table.getColumns()) {
+            _columns.add(new RejoinColumn(column));
+        }
     }
 
-    public Column getOriginalColumn() { return _column; }
-    
-    @Override
-    public RejoinTable getTable() { return RejoinTable.this; }
-  
-    @Override
-    public String getColumnNameSQL() { return _column.getColumnNameSQL(); }
+    public Table getOriginalTable() {return _table;}
 
     @Override
-    public String getTypeNameSQL() { return _column.getTypeNameSQL(); }
+    public String getAlias() {return _alias;}
 
     @Override
-    public Integer getTypeLength() { return _column.getTypeLength(); }
+    public String getTableNameSQL() {return _table.getTableNameSQL();}
 
     @Override
-    public List<?> getTypeQualifiers() { return _column.getTypeQualifiers(); }
+    public List<RejoinColumn> getColumns() {return _columns;}
 
     @Override
-    public List<? extends Constraint> getConstraints() { return _column.getConstraints(); }
+    public List<? extends Constraint> getConstraints() {return _table.getConstraints();}
 
-    @Override
-    public Object getDefaultValue() { return _column.getDefaultValue(); }
+    /**
+     * Finds the RejoinColumn in this table with the given name.
+     */
+    public RejoinColumn findColumnByName(String name) {
+        for (RejoinColumn col : getColumns()) {
+            if ((name == col.getColumnNameSQL()) ||
+                    ((name != null) && name.equals(col.getColumnNameSQL()))) {
+                return col;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Finds the RejoinColumn in this table for the given original column.
+     */
+    public RejoinColumn findColumn(Column origCol) {
+        for (RejoinColumn col : getColumns()) {
+            if (origCol == col.getOriginalColumn()) {
+                return col;
+            }
+        }
+        return null;
+    }
 
     @Override
     public String toString() {
-      return "Rejoin: " + getOriginalColumn().toString() +
-        "(" + getTable() + ")";
+        return "Rejoin: " + getOriginalTable().toString() + "(" + getAlias() + ")";
     }
-  }
-  
+
+    /**
+     * Utility class which wraps a Column and returns a reference to the
+     * RejoinTable instead of the original table.  All other methods return the
+     * information from the original column.
+     */
+    @SuppressWarnings("deprecation")
+    public class RejoinColumn implements Column {
+        /**
+         * the original column object
+         */
+        private Column _column;
+
+        private RejoinColumn(Column column) {
+            _column = column;
+        }
+
+        public Column getOriginalColumn() {return _column;}
+
+        @Override
+        public RejoinTable getTable() {return RejoinTable.this;}
+
+        @Override
+        public String getColumnNameSQL() {return _column.getColumnNameSQL();}
+
+        @Override
+        public String getTypeNameSQL() {return _column.getTypeNameSQL();}
+
+        @Override
+        public Integer getTypeLength() {return _column.getTypeLength();}
+
+        @Override
+        public List<?> getTypeQualifiers() {return _column.getTypeQualifiers();}
+
+        @Override
+        public List<? extends Constraint> getConstraints() {return _column.getConstraints();}
+
+        @Override
+        public Object getDefaultValue() {return _column.getDefaultValue();}
+
+        @Override
+        public String toString() {
+            return "Rejoin: " + getOriginalColumn().toString() +
+                    "(" + getTable() + ")";
+        }
+    }
+
 }
