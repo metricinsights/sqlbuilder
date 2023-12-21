@@ -78,6 +78,10 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
     protected SqlObject _table;
     private Integer indexLen;
 
+    public Integer getIndexLen() {
+        return indexLen;
+    }
+
     public CreateIndexQuery(Index index) {
         this((Object) index.getTable(), (Object) index);
 
@@ -220,7 +224,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
                 customAppendTo(app, Hook.INDEX, "INDEX ")
                         .append(_object).append(" ON ").append(_table);
 
-        if (indexLen == null) {
+        if (getIndexLen() == null) {
             indexBuilder.append(" (").append(_columns).append(")");
         } else {
             indexBuilder.append(" ").append(generateIndexColumnsVal());
@@ -229,14 +233,14 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
         customAppendTo(app, Hook.TRAILER);
     }
 
-    private String generateIndexColumnsVal() {
+    protected String generateIndexColumnsVal() {
         return StreamSupport.stream(_columns.spliterator(), false)
                 .map(obj -> {
                     if (obj instanceof ColumnObject) {
                         Column col = ((ColumnObject) obj)._column;
 
                         if (col.getTypeNameSQL().equalsIgnoreCase("VARCHAR")) {
-                            return col.getColumnNameSQL() + String.format("(%d)", indexLen);
+                            return col.getColumnNameSQL() + String.format("(%d)", getIndexLen());
                         }
 
                         return col.getColumnNameSQL();
