@@ -22,7 +22,7 @@ public class MySqlCreateIndexQuery extends CreateIndexQuery {
 
                         if ("TEXT".equalsIgnoreCase(col.getTypeNameSQL()) ||
                                 "VARCHAR".equalsIgnoreCase(col.getTypeNameSQL())) {
-                            return "%s(%d)".formatted(col.getColumnNameSQL(), getIndexLen());
+                            return "%s(%d)".formatted(col.getColumnNameSQL(), indexLen);
                         }
 
                         return col.getColumnNameSQL();

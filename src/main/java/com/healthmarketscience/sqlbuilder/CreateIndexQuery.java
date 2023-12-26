@@ -76,11 +76,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
 
     private IndexType _indexType;
     protected SqlObject _table;
-    private Integer indexLen;
-
-    protected Integer getIndexLen() {
-        return indexLen;
-    }
+    protected Integer indexLen;
 
     public CreateIndexQuery(Index index) {
         this((Object) index.getTable(), (Object) index);
@@ -224,7 +220,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
                 customAppendTo(app, Hook.INDEX, "INDEX ")
                         .append(_object).append(" ON ").append(_table);
 
-        if (getIndexLen() == null) {
+        if (indexLen == null) {
             indexBuilder.append(" (").append(_columns).append(")");
         } else {
             indexBuilder.append(" ").append(generateIndexColumnsVal());
@@ -240,7 +236,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
                         Column col = ((ColumnObject) obj)._column;
 
                         if (col.getTypeNameSQL().equalsIgnoreCase("VARCHAR")) {
-                            return col.getColumnNameSQL() + String.format("(%d)", getIndexLen());
+                            return col.getColumnNameSQL() + String.format("(%d)", indexLen);
                         }
 
                         return col.getColumnNameSQL();
