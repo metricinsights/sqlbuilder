@@ -78,7 +78,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
     protected SqlObject _table;
     private Integer indexLen;
 
-    public Integer getIndexLen() {
+    protected Integer getIndexLen() {
         return indexLen;
     }
 
