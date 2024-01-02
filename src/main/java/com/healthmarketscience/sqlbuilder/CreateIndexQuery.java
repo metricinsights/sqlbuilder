@@ -76,7 +76,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
 
     private IndexType _indexType;
     protected SqlObject _table;
-    private Integer indexLen;
+    protected Integer indexLen;
 
     public CreateIndexQuery(Index index) {
         this((Object) index.getTable(), (Object) index);
@@ -229,7 +229,7 @@ public class CreateIndexQuery extends BaseCreateQuery<CreateIndexQuery> {
         customAppendTo(app, Hook.TRAILER);
     }
 
-    private String generateIndexColumnsVal() {
+    protected String generateIndexColumnsVal() {
         return StreamSupport.stream(_columns.spliterator(), false)
                 .map(obj -> {
                     if (obj instanceof ColumnObject) {

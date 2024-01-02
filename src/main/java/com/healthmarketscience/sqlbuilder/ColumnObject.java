@@ -30,11 +30,15 @@ import java.io.IOException;
  *
  * @author James Ahlborn
  */
-class ColumnObject extends Expression {
+public class ColumnObject extends Expression {
     protected Column _column;
 
     protected ColumnObject(Column column) {
         _column = column;
+    }
+
+    public Column getColumn() {
+        return _column;
     }
 
     @Override
