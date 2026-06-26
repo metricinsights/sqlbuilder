@@ -10,7 +10,7 @@
     <artifactId>sqlbuilder</artifactId>
     <name>SQL Query Builders</name>
     <description>Builder style classes for creating SQL queries</description>
-    <version>3.0.5-mi</version>
+    <version>3.0.6-mi</version>
     <url>https://openhms.sourceforge.io/sqlbuilder</url>
     <inceptionYear>2006</inceptionYear>
 
