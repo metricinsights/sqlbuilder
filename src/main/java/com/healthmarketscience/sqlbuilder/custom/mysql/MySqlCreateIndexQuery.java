@@ -21,6 +21,8 @@ public class MySqlCreateIndexQuery extends CreateIndexQuery {
                         Column col = columnObject.getColumn();
 
                         if ("TEXT".equalsIgnoreCase(col.getTypeNameSQL()) ||
+                                "MEDIUMTEXT".equalsIgnoreCase(col.getTypeNameSQL()) ||
+                                "LONGTEXT".equalsIgnoreCase(col.getTypeNameSQL()) ||
                                 "VARCHAR".equalsIgnoreCase(col.getTypeNameSQL())) {
                             return "%s(%d)".formatted(col.getColumnNameSQL(), indexLen);
                         }
